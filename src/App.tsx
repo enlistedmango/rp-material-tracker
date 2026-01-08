@@ -233,6 +233,23 @@ const App: React.FC = () => {
         />
 
         <CraftingCalculator recipes={recipes} materials={materials} />
+
+        <section className="stream-section">
+          <h2>🎮 Live Stream</h2>
+          <p className="section-description">
+            Watch EnlistedMango live on Kick! Follow the creator of this app as they embark on new adventures and gather materials.
+          </p>
+          <div className="stream-container">
+            <iframe
+              src="https://player.kick.com/enlistedmango"
+              title="EnlistedMango Kick Stream"
+              className="stream-iframe"
+              frameBorder="0"
+              scrolling="no"
+              allowFullScreen={true}
+            />
+          </div>
+        </section>
       </main>
     </div>
   );

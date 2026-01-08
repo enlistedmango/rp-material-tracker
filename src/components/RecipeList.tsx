@@ -176,8 +176,8 @@ const RecipeList: React.FC<RecipeListProps> = ({
           {searchQuery
             ? `No recipes found matching "${searchQuery}"`
             : filter === 'craftable'
-            ? 'No craftable recipes with your current materials.'
-            : 'No recipes available.'}
+              ? 'No craftable recipes with your current materials.'
+              : 'No recipes available.'}
         </p>
       )}
     </div>

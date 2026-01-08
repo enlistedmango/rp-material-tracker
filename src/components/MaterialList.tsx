@@ -82,7 +82,7 @@ const MaterialList: React.FC<MaterialListProps> = ({
           {quickAddMode ? '✓ Done Adding' : '+ Quick Add'}
         </button>
       </div>
-      
+
       <div className="search-filter-bar">
         <input
           type="text"
@@ -126,83 +126,83 @@ const MaterialList: React.FC<MaterialListProps> = ({
           <p>No materials found matching "{searchQuery}"</p>
         </div>
       ) : (
-      <div className="materials-grid">
-        {sortedMaterials.map((material) => (
-          <div
-            key={material.id}
-            className={`material-card ${material.quantity < 10 ? 'low-stock' : ''}`}
-            data-rarity={material.rarity || 'common'}
-          >
-            <div className="material-card-actions">
-              <button
-                onClick={() => onEditMaterial(material)}
-                className="btn-edit-material"
-                title="Edit material"
-              >
-                ✎
-              </button>
-              <button
-                onClick={() => onDeleteMaterial(material.id)}
-                className="btn-delete-material"
-                title="Delete material"
-              >
-                ✕
-              </button>
-            </div>
-            <span className="material-name">{material.name}</span>
-            {material.value && material.value > 0 && (
-              <div className="material-value-info">
-                <span className="material-unit-value">${material.value.toFixed(2)} each</span>
-                <span className="material-total-value">{formatCurrency(material.quantity * material.value)}</span>
+        <div className="materials-grid">
+          {sortedMaterials.map((material) => (
+            <div
+              key={material.id}
+              className={`material-card ${material.quantity < 10 ? 'low-stock' : ''}`}
+              data-rarity={material.rarity || 'common'}
+            >
+              <div className="material-card-actions">
+                <button
+                  onClick={() => onEditMaterial(material)}
+                  className="btn-edit-material"
+                  title="Edit material"
+                >
+                  ✎
+                </button>
+                <button
+                  onClick={() => onDeleteMaterial(material.id)}
+                  className="btn-delete-material"
+                  title="Delete material"
+                >
+                  ✕
+                </button>
               </div>
-            )}
-            {quickAddMode ? (
-              <div className="quick-add-input-container">
-                <span className="current-qty">Current: {material.quantity}</span>
-                <div className="quick-add-controls">
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="Add..."
-                    value={quickAddValues[material.id] || ''}
-                    onChange={(e) => handleQuickAddChange(material.id, e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        handleQuickAddSubmit(material);
-                      }
-                    }}
-                    className="quick-add-input"
-                  />
+              <span className="material-name">{material.name}</span>
+              {material.value && material.value > 0 && (
+                <div className="material-value-info">
+                  <span className="material-unit-value">${material.value.toFixed(2)} each</span>
+                  <span className="material-total-value">{formatCurrency(material.quantity * material.value)}</span>
+                </div>
+              )}
+              {quickAddMode ? (
+                <div className="quick-add-input-container">
+                  <span className="current-qty">Current: {material.quantity}</span>
+                  <div className="quick-add-controls">
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="Add..."
+                      value={quickAddValues[material.id] || ''}
+                      onChange={(e) => handleQuickAddChange(material.id, e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          handleQuickAddSubmit(material);
+                        }
+                      }}
+                      className="quick-add-input"
+                    />
+                    <button
+                      onClick={() => handleQuickAddSubmit(material)}
+                      className="btn-quick-add-submit"
+                      disabled={!quickAddValues[material.id] || parseInt(quickAddValues[material.id]) <= 0}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="material-controls">
                   <button
-                    onClick={() => handleQuickAddSubmit(material)}
-                    className="btn-quick-add-submit"
-                    disabled={!quickAddValues[material.id] || parseInt(quickAddValues[material.id]) <= 0}
+                    onClick={() => onUpdateMaterial(material.id, material.quantity - 1)}
+                    disabled={material.quantity <= 0}
+                    className="btn-small"
+                  >
+                    −
+                  </button>
+                  <span className="material-quantity">{material.quantity}</span>
+                  <button
+                    onClick={() => onUpdateMaterial(material.id, material.quantity + 1)}
+                    className="btn-small"
                   >
                     +
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="material-controls">
-                <button
-                  onClick={() => onUpdateMaterial(material.id, material.quantity - 1)}
-                  disabled={material.quantity <= 0}
-                  className="btn-small"
-                >
-                  −
-                </button>
-                <span className="material-quantity">{material.quantity}</span>
-                <button
-                  onClick={() => onUpdateMaterial(material.id, material.quantity + 1)}
-                  className="btn-small"
-                >
-                  +
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
