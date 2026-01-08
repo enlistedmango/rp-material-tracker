@@ -237,7 +237,7 @@ const App: React.FC = () => {
         <section className="stream-section">
           <h2>🎮 Live Stream</h2>
           <p className="section-description">
-            Watch EnlistedMango live on Kick! Follow the creator of this app as they embark on new adventures and gather materials.
+            Drop the creator a follow on Kick!!
           </p>
           <div className="stream-container">
             <iframe
