@@ -15,16 +15,16 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
   onCancelEdit
 }) => {
   const [materialName, setMaterialName] = useState('');
-  const [materialQuantity, setMaterialQuantity] = useState(0);
+  const [materialQuantity, setMaterialQuantity] = useState('');
   const [materialRarity, setMaterialRarity] = useState<'common' | 'uncommon' | 'rare'>('common');
-  const [materialValue, setMaterialValue] = useState<number>(0);
+  const [materialValue, setMaterialValue] = useState('');
 
   useEffect(() => {
     if (editingMaterial) {
       setMaterialName(editingMaterial.name);
-      setMaterialQuantity(editingMaterial.quantity);
+      setMaterialQuantity(editingMaterial.quantity.toString());
       setMaterialRarity(editingMaterial.rarity || 'common');
-      setMaterialValue(editingMaterial.value || 0);
+      setMaterialValue(editingMaterial.value ? editingMaterial.value.toString() : '');
     }
   }, [editingMaterial]);
 
@@ -36,9 +36,9 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
       const updatedMaterial: Material = {
         ...editingMaterial,
         name: materialName,
-        quantity: materialQuantity,
+        quantity: Number(materialQuantity) || 0,
         rarity: materialRarity,
-        value: materialValue || undefined,
+        value: materialValue ? Number(materialValue) : undefined,
       };
       onUpdateMaterial(updatedMaterial);
       resetForm();
@@ -46,9 +46,9 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
       const newMaterial: Material = {
         id: Date.now().toString(),
         name: materialName,
-        quantity: materialQuantity,
+        quantity: Number(materialQuantity) || 0,
         rarity: materialRarity,
-        value: materialValue || undefined,
+        value: materialValue ? Number(materialValue) : undefined,
       };
       onAddMaterial(newMaterial);
       resetForm();
@@ -57,9 +57,9 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
 
   const resetForm = () => {
     setMaterialName('');
-    setMaterialQuantity(0);
+    setMaterialQuantity('');
     setMaterialRarity('common');
-    setMaterialValue(0);
+    setMaterialValue('');
     if (onCancelEdit) onCancelEdit();
   };
 
@@ -69,24 +69,24 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         type="text"
         value={materialName}
         onChange={(e) => setMaterialName(e.target.value)}
-        placeholder="Material Name"
+        placeholder="e.g., Plastic, Iron Ore, Springs"
         required
       />
       <input
         type="number"
         value={materialQuantity}
-        onChange={(e) => setMaterialQuantity(Number(e.target.value))}
+        onChange={(e) => setMaterialQuantity(e.target.value)}
         min="0"
-        placeholder="Quantity"
+        placeholder="Quantity (e.g., 25)"
         required
       />
       <input
         type="number"
         value={materialValue}
-        onChange={(e) => setMaterialValue(Number(e.target.value))}
+        onChange={(e) => setMaterialValue(e.target.value)}
         min="0"
         step="0.01"
-        placeholder="Value per unit ($)"
+        placeholder="Price per unit (e.g., 10.00)"
       />
       <select
         value={materialRarity}
