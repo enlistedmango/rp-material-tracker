@@ -244,8 +244,6 @@ const App: React.FC = () => {
               src="https://player.kick.com/enlistedmango"
               title="EnlistedMango Kick Stream"
               className="stream-iframe"
-              frameBorder="0"
-              scrolling="no"
               allowFullScreen={true}
             />
           </div>

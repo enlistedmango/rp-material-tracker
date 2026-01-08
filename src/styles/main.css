@@ -2147,7 +2147,9 @@ form button.btn-cancel-edit:hover {
 .stream-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%;
+    max-width: 910px;
+    margin: 0 auto;
+    padding-bottom: 50.625%;
     background: #1a1a1a;
     border-radius: 8px;
     overflow: hidden;
