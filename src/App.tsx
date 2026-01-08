@@ -235,9 +235,9 @@ const App: React.FC = () => {
         <CraftingCalculator recipes={recipes} materials={materials} />
 
         <section className="stream-section">
-          <h2>🎮 Live Stream</h2>
+          <h2>🎮 Creators Live Stream</h2>
           <p className="section-description">
-            Drop the creator a follow on Kick!!
+            Drop EnlistedMango a follow on Kick!!
           </p>
           <div className="stream-container">
             <iframe
