@@ -17,6 +17,19 @@ const MaterialList: React.FC<MaterialListProps> = ({
   const [quickAddMode, setQuickAddMode] = useState(false);
   const [quickAddValues, setQuickAddValues] = useState<{ [key: string]: string }>({});
 
+  const calculateTotalValue = () => {
+    return materials.reduce((total, material) => {
+      return total + (material.quantity * (material.value || 0));
+    }, 0);
+  };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(value);
+  };
+
   if (materials.length === 0) {
     return (
       <div className="materials-section">
@@ -68,6 +81,12 @@ const MaterialList: React.FC<MaterialListProps> = ({
         Sorted by quantity (highest first). Use Quick Add mode to bulk update materials after a run.
         Hover over cards to see edit (✎) and delete (✕) buttons. Low stock items ({"< 10"}) have red backgrounds.
       </p>
+      {calculateTotalValue() > 0 && (
+        <div className="total-value-display">
+          <span className="total-value-label">Total Material Value:</span>
+          <span className="total-value-amount">{formatCurrency(calculateTotalValue())}</span>
+        </div>
+      )}
       {quickAddMode && (
         <div className="quick-add-instructions">
           <p>Enter quantities found during your run, then click "Apply All" or press Enter on each field.</p>
@@ -100,6 +119,12 @@ const MaterialList: React.FC<MaterialListProps> = ({
               </button>
             </div>
             <span className="material-name">{material.name}</span>
+            {material.value && material.value > 0 && (
+              <div className="material-value-info">
+                <span className="material-unit-value">${material.value.toFixed(2)} each</span>
+                <span className="material-total-value">{formatCurrency(material.quantity * material.value)}</span>
+              </div>
+            )}
             {quickAddMode ? (
               <div className="quick-add-input-container">
                 <span className="current-qty">Current: {material.quantity}</span>

@@ -3,6 +3,7 @@ export interface Material {
     name: string;
     quantity: number;
     rarity?: 'common' | 'uncommon' | 'rare';
+    value?: number;
 }
 
 export interface Recipe {

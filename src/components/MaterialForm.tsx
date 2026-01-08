@@ -17,12 +17,14 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
   const [materialName, setMaterialName] = useState('');
   const [materialQuantity, setMaterialQuantity] = useState(0);
   const [materialRarity, setMaterialRarity] = useState<'common' | 'uncommon' | 'rare'>('common');
+  const [materialValue, setMaterialValue] = useState<number>(0);
 
   useEffect(() => {
     if (editingMaterial) {
       setMaterialName(editingMaterial.name);
       setMaterialQuantity(editingMaterial.quantity);
       setMaterialRarity(editingMaterial.rarity || 'common');
+      setMaterialValue(editingMaterial.value || 0);
     }
   }, [editingMaterial]);
 
@@ -36,6 +38,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         name: materialName,
         quantity: materialQuantity,
         rarity: materialRarity,
+        value: materialValue || undefined,
       };
       onUpdateMaterial(updatedMaterial);
       resetForm();
@@ -45,6 +48,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         name: materialName,
         quantity: materialQuantity,
         rarity: materialRarity,
+        value: materialValue || undefined,
       };
       onAddMaterial(newMaterial);
       resetForm();
@@ -55,6 +59,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
     setMaterialName('');
     setMaterialQuantity(0);
     setMaterialRarity('common');
+    setMaterialValue(0);
     if (onCancelEdit) onCancelEdit();
   };
 
@@ -74,6 +79,14 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         min="0"
         placeholder="Quantity"
         required
+      />
+      <input
+        type="number"
+        value={materialValue}
+        onChange={(e) => setMaterialValue(Number(e.target.value))}
+        min="0"
+        step="0.01"
+        placeholder="Value per unit ($)"
       />
       <select
         value={materialRarity}

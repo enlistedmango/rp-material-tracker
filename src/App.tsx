@@ -4,6 +4,7 @@ import RecipeList from './components/RecipeList';
 import MaterialForm from './components/MaterialForm';
 import RecipeForm from './components/RecipeForm';
 import CraftingCalculator from './components/CraftingCalculator';
+import ImportExport from './components/ImportExport';
 import { Material, Recipe } from './types';
 import { getMaterials, saveMaterials, getRecipes, saveRecipes } from './utils/storage';
 import recipesData from './data/recipes';
@@ -167,14 +168,25 @@ const App: React.FC = () => {
     saveMaterials(updatedMaterials);
   };
 
+  const handleImportComplete = () => {
+    const storedMaterials = getMaterials();
+    setMaterials(storedMaterials);
+
+    const storedRecipes = getRecipes();
+    setRecipes(storedRecipes);
+  };
+
   return (
     <div className="app">
       <header>
-        <h1>🎮 Prodigy Material Tracker</h1>
+        <h1>🎮 Roleplay Material Tracker</h1>
         <p>Track your materials and craftable recipes</p>
+        <p className="built-by">Built by EnlistedMango with ❤️</p>
       </header>
 
       <main>
+        <ImportExport onImportComplete={handleImportComplete} />
+
         <section className="add-material-section">
           <h2>{editingMaterial ? 'Edit Material' : 'Add Material'}</h2>
           <p className="section-description">
