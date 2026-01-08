@@ -8,6 +8,7 @@ import ImportExport from './components/ImportExport';
 import { Material, Recipe } from './types';
 import { getMaterials, saveMaterials, getRecipes, saveRecipes } from './utils/storage';
 import recipesData from './data/recipes';
+import materialsData from './data/materials';
 import './styles/main.css';
 
 const App: React.FC = () => {
@@ -18,7 +19,12 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const storedMaterials = getMaterials();
-    setMaterials(storedMaterials);
+    if (storedMaterials.length === 0) {
+      setMaterials(materialsData);
+      saveMaterials(materialsData);
+    } else {
+      setMaterials(storedMaterials);
+    }
 
     const storedRecipes = getRecipes();
     if (storedRecipes.length === 0) {
