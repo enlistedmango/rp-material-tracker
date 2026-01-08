@@ -20,6 +20,7 @@ const RecipeList: React.FC<RecipeListProps> = ({
 }) => {
   const [filter, setFilter] = useState<'all' | 'craftable'>('all');
   const [sortBy, setSortBy] = useState<'default' | 'mostCraftable' | 'leastCraftable' | 'alphabetical'>('mostCraftable');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const canCraft = (recipe: Recipe): boolean => {
     return recipe.requiredMaterials.every((required) => {
@@ -50,10 +51,11 @@ const RecipeList: React.FC<RecipeListProps> = ({
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
+    const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase());
     if (filter === 'craftable') {
-      return canCraft(recipe);
+      return canCraft(recipe) && matchesSearch;
     }
-    return true;
+    return matchesSearch;
   });
 
   const sortedRecipes = [...filteredRecipes].sort((a, b) => {
@@ -101,9 +103,29 @@ const RecipeList: React.FC<RecipeListProps> = ({
         </div>
       </div>
 
+      <div className="search-filter-bar">
+        <input
+          type="text"
+          placeholder="🔍 Search recipes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="btn-clear-search"
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
       <p className="section-description">
         Recipes show craftable items with required materials. Green cards indicate you have enough materials to craft.
         The badge shows how many you can craft. Click "Craft" to consume materials and create the item.
+        {searchQuery && ` Showing ${sortedRecipes.length} of ${recipes.length} recipes.`}
       </p>
 
       <div className="recipes-grid-compact">
@@ -151,7 +173,9 @@ const RecipeList: React.FC<RecipeListProps> = ({
 
       {sortedRecipes.length === 0 && (
         <p className="empty-message">
-          {filter === 'craftable'
+          {searchQuery
+            ? `No recipes found matching "${searchQuery}"`
+            : filter === 'craftable'
             ? 'No craftable recipes with your current materials.'
             : 'No recipes available.'}
         </p>

@@ -16,9 +16,14 @@ const MaterialList: React.FC<MaterialListProps> = ({
 }) => {
   const [quickAddMode, setQuickAddMode] = useState(false);
   const [quickAddValues, setQuickAddValues] = useState<{ [key: string]: string }>({});
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredMaterials = materials.filter((material) =>
+    material.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const calculateTotalValue = () => {
-    return materials.reduce((total, material) => {
+    return filteredMaterials.reduce((total, material) => {
       return total + (material.quantity * (material.value || 0));
     }, 0);
   };
@@ -39,7 +44,7 @@ const MaterialList: React.FC<MaterialListProps> = ({
     );
   }
 
-  const sortedMaterials = [...materials].sort((a, b) => b.quantity - a.quantity);
+  const sortedMaterials = [...filteredMaterials].sort((a, b) => b.quantity - a.quantity);
 
   const handleQuickAddChange = (id: string, value: string) => {
     setQuickAddValues({ ...quickAddValues, [id]: value });
@@ -77,9 +82,30 @@ const MaterialList: React.FC<MaterialListProps> = ({
           {quickAddMode ? '✓ Done Adding' : '+ Quick Add'}
         </button>
       </div>
+      
+      <div className="search-filter-bar">
+        <input
+          type="text"
+          placeholder="🔍 Search materials..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="btn-clear-search"
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
       <p className="section-description">
         Sorted by quantity (highest first). Use Quick Add mode to bulk update materials after a run.
         Hover over cards to see edit (✎) and delete (✕) buttons. Low stock items ({"< 10"}) have red backgrounds.
+        {searchQuery && ` Showing ${filteredMaterials.length} of ${materials.length} materials.`}
       </p>
       {calculateTotalValue() > 0 && (
         <div className="total-value-display">
@@ -95,6 +121,11 @@ const MaterialList: React.FC<MaterialListProps> = ({
           </button>
         </div>
       )}
+      {filteredMaterials.length === 0 && searchQuery ? (
+        <div className="no-results">
+          <p>No materials found matching "{searchQuery}"</p>
+        </div>
+      ) : (
       <div className="materials-grid">
         {sortedMaterials.map((material) => (
           <div
@@ -172,6 +203,7 @@ const MaterialList: React.FC<MaterialListProps> = ({
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 };
