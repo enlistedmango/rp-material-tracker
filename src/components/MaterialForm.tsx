@@ -18,6 +18,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
   const [materialQuantity, setMaterialQuantity] = useState('');
   const [materialRarity, setMaterialRarity] = useState<'common' | 'uncommon' | 'rare'>('common');
   const [materialValue, setMaterialValue] = useState('');
+  const [materialBuyer, setMaterialBuyer] = useState('');
 
   useEffect(() => {
     if (editingMaterial) {
@@ -25,6 +26,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
       setMaterialQuantity(editingMaterial.quantity.toString());
       setMaterialRarity(editingMaterial.rarity || 'common');
       setMaterialValue(editingMaterial.value ? editingMaterial.value.toString() : '');
+      setMaterialBuyer(editingMaterial.buyer || '');
     }
   }, [editingMaterial]);
 
@@ -39,6 +41,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         quantity: Number(materialQuantity) || 0,
         rarity: materialRarity,
         value: materialValue ? Number(materialValue) : undefined,
+        buyer: materialBuyer || undefined,
       };
       onUpdateMaterial(updatedMaterial);
       resetForm();
@@ -49,6 +52,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         quantity: Number(materialQuantity) || 0,
         rarity: materialRarity,
         value: materialValue ? Number(materialValue) : undefined,
+        buyer: materialBuyer || undefined,
       };
       onAddMaterial(newMaterial);
       resetForm();
@@ -60,6 +64,7 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
     setMaterialQuantity('');
     setMaterialRarity('common');
     setMaterialValue('');
+    setMaterialBuyer('');
     if (onCancelEdit) onCancelEdit();
   };
 
@@ -87,6 +92,12 @@ const MaterialForm: React.FC<MaterialFormProps> = ({
         min="0"
         step="0.01"
         placeholder="Price per unit (e.g., 10.00)"
+      />
+      <input
+        type="text"
+        value={materialBuyer}
+        onChange={(e) => setMaterialBuyer(e.target.value)}
+        placeholder="Buyer/Vendor (e.g., John, Trader Bob)"
       />
       <select
         value={materialRarity}

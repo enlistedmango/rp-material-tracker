@@ -149,13 +149,23 @@ const MaterialList: React.FC<MaterialListProps> = ({
                   ✕
                 </button>
               </div>
-              <span className="material-name">{material.name}</span>
-              {material.value && material.value > 0 && (
-                <div className="material-value-info">
-                  <span className="material-unit-value">${material.value.toFixed(2)} each</span>
-                  <span className="material-total-value">{formatCurrency(material.quantity * material.value)}</span>
-                </div>
-              )}
+              <div className="material-header-row">
+                <span className="material-name">{material.name}</span>
+                {material.value && material.value > 0 && (
+                  <div className="material-value-info">
+                    <span className="material-unit-value">${Math.round(material.value)} each</span>
+                    <span className="material-value-separator">/</span>
+                    <span className="material-total-value">${Math.round(material.quantity * material.value)}</span>
+                  </div>
+                )}
+              </div>
+              <div className="material-bottom-row">
+                {material.buyer && (
+                  <div className="material-buyer-tag">
+                    <span className="buyer-label">Sells to:</span>
+                    <span className="buyer-name">{material.buyer}</span>
+                  </div>
+                )}
               {quickAddMode ? (
                 <div className="quick-add-input-container">
                   <span className="current-qty">Current: {material.quantity}</span>
@@ -200,6 +210,7 @@ const MaterialList: React.FC<MaterialListProps> = ({
                   </button>
                 </div>
               )}
+              </div>
             </div>
           ))}
         </div>

@@ -336,14 +336,11 @@ form button.btn-cancel-edit:hover {
     border: 2px solid #6b6b6b;
     transition: all 0.2s;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    flex-direction: column;
+    gap: 8px;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     min-height: 70px;
-    flex-wrap: wrap;
 }
 
 .material-card:hover {
@@ -446,24 +443,69 @@ form button.btn-cancel-edit:hover {
     letter-spacing: 0.5px;
 }
 
+.material-buyer-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    background: rgba(74, 158, 255, 0.2);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    width: fit-content;
+}
+
+.buyer-label {
+    color: #aaa;
+    font-weight: 400;
+    font-size: 0.7rem;
+}
+
+.buyer-name {
+    color: #6cb5ff;
+    font-weight: 600;
+}
+
+.material-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.material-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
 .material-value-info {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
     flex-shrink: 0;
 }
 
 .material-unit-value {
-    font-size: 0.75rem;
-    color: #888;
-    font-weight: 500;
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: 400;
+}
+
+.material-value-separator {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 400;
 }
 
 .material-total-value {
     font-size: 0.95rem;
     color: #85C44D;
     font-weight: 700;
+    text-shadow: 0 0 8px rgba(133, 196, 77, 0.3);
 }
 
 .material-controls {

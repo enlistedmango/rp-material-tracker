@@ -4,6 +4,7 @@ export interface Material {
     quantity: number;
     rarity?: 'common' | 'uncommon' | 'rare';
     value?: number;
+    buyer?: string;
 }
 
 export interface Recipe {
